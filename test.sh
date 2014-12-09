@@ -7,9 +7,6 @@ findprimer -f R2.fastq.gz -p gaaaatctctagca -o testR2.txt
 ## join the table by read name
 join testR1.txt testR2.txt | tr " " "\t" > R1R2.txt
 
-## filter names of good reads; here we want R1 linkered and R2 primed
-awk '$5>0 && $6<5 && $10>0 && $11<4' R1R2.txt > goodReadsR1R2.txt
-
 ## get read names and positions for R1 and R2 separately
 awk '$5>0 && $6<5 && $10>0 && $11<4 {OFS="\t"; print $1,$4,$5,$6}' R1R2.txt > R1cuts.txt
 awk '$5>0 && $6<5 && $10>0 && $11<4 {OFS="\t"; print $1,$9,$10,$11}' R1R2.txt > R2cuts.txt
