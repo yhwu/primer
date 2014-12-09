@@ -20,7 +20,7 @@ clean:
 	rm -f test*.txt R1R2.txt R?.filt.fastq.gz R?cuts.txt
 
 test:   findprimer test.sh
-	test.sh
+	./test.sh
 #	findprimer -f R1.fastq.gz -p GGCACATCGATTTCTGCGAGNNNNNNNNNNNNCTCCGCTTAAGGGACT -o testR1.txt 
 #	findprimer -f R2.fastq.gz -p gaaaatctctagca -o testR2.txt
 #	join testR1.txt testR2.txt | tr " " "\t" > R1R2.txt
