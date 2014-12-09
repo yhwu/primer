@@ -31,6 +31,9 @@ Given sequence names and cut points, this program selects the reads and cuts the
 #### A typical work flow for Illumina miseq run
 
 - 1. demultiplex with idemp.
+```
+idemp 
+```
 
 - 2. Find inker at the begining of R1 reads, primer in R2 reads
 ```
