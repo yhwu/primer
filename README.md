@@ -78,34 +78,7 @@ make test
 
 #### Usage
 ```
-Usage:
-   findprimer -f fastq -p primer -m n -o outFile
-
-Options:
-   fastq    fastq file
-   primer   primer or linker sequence
-   n        allowed base mismatches, optional, default=1+primer/20
-   outFile  output folder, optional, default=.
-
-Output: rows of the following columns
-   sequence_name
-   sequence_name_comment
-   primer/linker
-   primer/linker_length
-   primer/linker_on_sequence
-   edit distance
-   primer_start	#0 based
-   primer_end	#0 based
-
-Note:
-   1. primer is converted to upper cases.
-   2. sequence is not converted.
-   3. N, ?, . in primer matches all.
-   4. N in sequence does not matche any.
-```
-
-#### Usage
-```
+[yhwu@local primer]$ ./findprimer
 Usage:
    findprimer -f fastq -p primer -m n -o outFile
 
@@ -131,7 +104,7 @@ Note:
    3. N, ?, . in primer matches all.
    4. N in sequence does not matche any.
 
-[yinghua@black-elephant findprimer]$ trimprimer
+[yhwu@local primer]$ ./trimprimer
 Usage:
    trimprimer -f fastq -t trimfile -o outFile
 
