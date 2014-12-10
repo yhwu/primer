@@ -5,11 +5,11 @@
 ./findprimer -f R2.fastq.gz -p gaaaatctctagca -o testR2.txt
 
 ## join the table by read name
-join testR1.txt testR2.txt | tr " " "\t" > R1R2.txt
+join testR1.txt testR2.txt > R1R2.txt
 
 ## get read names and positions for R1 and R2 separately
-awk '$5>0 && $6<5 && $10>0 && $11<4 {OFS="\t"; print $1,$4,$5,$6}' R1R2.txt > R1cuts.txt
-awk '$5>0 && $6<5 && $10>0 && $11<4 {OFS="\t"; print $1,$9,$10,$11}' R1R2.txt > R2cuts.txt
+awk '$5>0 && $6<5 && $10>0 && $11<4 {print $1,$4,$5,$6}' R1R2.txt > R1cuts.txt
+awk '$5>0 && $6<5 && $10>0 && $11<4 {print $1,$9,$10,$11}' R1R2.txt > R2cuts.txt
 
 ## extract read from R1 and R2
 ./trimprimer -f R1.fastq.gz -t R1cuts.txt -o R1.filt.fastq.gz

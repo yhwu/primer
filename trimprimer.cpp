@@ -104,6 +104,7 @@ int main(int argc, char* argv[])
   int qend;
   int ed;
   size_t icount=0;
+  string outBuffer="";
   while( FIN >> trim_name >> q0 >> qend >> ed ) {
     if ( trim_name[0]=='#' ) continue;
     bool ifdrop=false;
@@ -126,13 +127,22 @@ int main(int argc, char* argv[])
       tmps += "\n";
       tmps += string(seq->seq.s).substr(qend+1) + "\n+\n";
       if (seq->qual.l) tmps += string(seq->qual.s).substr(qend+1) +"\n";
-      gzwrite(zout, &tmps[0], tmps.size() );
+      outBuffer+=tmps;
+      if ( outBuffer.length()>60000000 ) {
+	gzwrite(zout, &outBuffer[0], outBuffer.size() );
+	outBuffer="";
+      }
       break;
     }
     
     if ( !found ) cerr << trim_name << "  NOT FOUND" << endl;
     if ( ++icount%1000000 == 0 ) cerr << icount << " processed" << endl;
   }
+  if ( outBuffer.length()>1 ) {
+    gzwrite(zout, &outBuffer[0], outBuffer.size() );
+    outBuffer="";
+  }
+  gzclose(zout); //close input
   gzclose(fp); //close input
   
   
