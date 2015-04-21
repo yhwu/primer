@@ -352,10 +352,11 @@ int main_usage()
        << "   primer_start\t#0 based\n"
        << "   primer_end\t#0 based\n"
        << "\nNote:\n"
-       << "   1. primer is converted to upper cases.\n"
+       << "   1. primer is always converted to upper cases.\n"
        << "   2. sequence is not converted.\n"
        << "   3. N, ?, . in primer matches all.\n"
        << "   4. N in sequence does not matche any.\n"
+       << "   5. Other characters follow IUPAC nucleotide code.\n"
        << endl;
   return 0;
 }
