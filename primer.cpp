@@ -5,6 +5,7 @@
 #include <math.h>
 #include <complex>
 #include <algorithm>
+#include <map>
 #include <string>
 #include <vector>
 #include <unistd.h>
@@ -19,12 +20,60 @@ using namespace std;
 KSEQ_INIT(gzFile, gzread)
 
 /*ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc*/
+/*
+ * DNA:
+ * Nucleotide Code:  Base:
+ * ----------------  -----
+ * A.................Adenine
+ * C.................Cytosine
+ * G.................Guanine
+ * T (or U)..........Thymine (or Uracil)
+ * R.................A or G
+ * Y.................C or T
+ * S.................G or C
+ * W.................A or T
+ * K.................G or T
+ * M.................A or C
+ * B.................C or G or T
+ * D.................A or G or T
+ * H.................A or C or T
+ * V.................A or C or G
+ * N.................any base
+ * . or -............gap
+ * 
+ * Note: b1 is supposed to be from read, b2 from primer
+ */
 bool base_equal(const char b1, const char b2) {
-  if ( b1=='N' ) return(false);
-  if ( b2=='N' ) return(true);
-  if ( b2=='?' ) return(true);
-  if ( b2=='.' ) return(true);
-  else return( b1==b2 );
+  
+  static std::map <char, string> iupac;
+  iupac['A'] = "A";
+  iupac['C'] = "C";
+  iupac['G'] = "G";
+  iupac['T'] = "T";
+  iupac['R'] = "AG";
+  iupac['Y'] = "CT";
+  iupac['S'] = "CG";
+  iupac['W'] = "AT";
+  iupac['K'] = "GT";
+  iupac['M'] = "AC";
+  iupac['B'] = "CGT";
+  iupac['D'] = "AGT";
+  iupac['H'] = "ACT";
+  iupac['V'] = "ACG";
+  iupac['N'] = "ACGT";
+  
+  if ( b1=='N' ) return(false); // no call base
+  
+  if ( b1==b2 ) return(true); // base equal
+  
+  if ( b2=='?' || b2=='.' || b2=='N') return(true); // wildcard chracters
+  
+  if ( iupac.find(b2) == iupac.end() ) {
+    cerr << "Non IUPAC code found: " << b2 << endl;
+    exit(1);
+  }
+  
+  return( iupac[b2].find(b1) != std::string::npos );
 }
 
 /*ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc*/
@@ -158,7 +207,7 @@ void map_with_edit_distance(const std::string& s1, const std::string& s2,
     exit(1);
   }
   if ( n1 > 4096 || n2 > 4096 ) {
-    cerr << "map_with_edit_distance(), change size of array\n";
+    cerr << "map_with_edit_distance(), change size of array and make\n";
     exit(1);
   }
   

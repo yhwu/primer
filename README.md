@@ -99,10 +99,12 @@ Output: rows of the following columns
    primer_end	#0 based
 
 Note:
-   1. primer is converted to upper cases.
+   1. primer is always converted to upper cases.
    2. sequence is not converted.
    3. N, ?, . in primer matches all.
    4. N in sequence does not matche any.
+   5. Other characters follow IUPAC nucleotide code.
+
 
 [yhwu@local primer]$ ./trimprimer
 Usage:
